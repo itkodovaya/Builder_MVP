@@ -20,11 +20,27 @@ export default function SignInForm() {
   //TODO: why we need to reset it here
   const [reset, setReset] = useState({});
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    console.log(data);
-    signIn('credentials', {
-      ...data,
-    });
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+    console.log('📝 Form submitted with data:', data);
+    try {
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+      
+      console.log('🔐 SignIn result:', result);
+      
+      if (result?.error) {
+        console.error('❌ SignIn error:', result.error);
+        // Error will be handled by NextAuth and shown on the page
+      } else if (result?.ok) {
+        console.log('✅ SignIn successful, redirecting...');
+        window.location.href = '/dashboard';
+      }
+    } catch (error) {
+      console.error('❌ SignIn exception:', error);
+    }
   };
 
   return (

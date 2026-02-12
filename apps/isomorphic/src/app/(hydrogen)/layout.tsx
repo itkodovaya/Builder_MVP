@@ -1,6 +1,8 @@
 'use client';
 
 import { useIsMounted } from '@core/hooks/use-is-mounted';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import HydrogenLayout from '@/layouts/hydrogen/layout';
 import HeliumLayout from '@/layouts/helium/helium-layout';
 import LithiumLayout from '@/layouts/lithium/lithium-layout';
@@ -19,26 +21,47 @@ export default function DefaultLayout({ children }: LayoutProps) {
 }
 
 function LayoutProvider({ children }: LayoutProps) {
+  const pathname = usePathname();
   const { layout } = useLayout();
   const isMounted = useIsMounted();
+  const [isHomePage, setIsHomePage] = useState(false);
+  const [isFrappeBuilder, setIsFrappeBuilder] = useState(false);
 
-  if (!isMounted) {
-    return null;
+  useEffect(() => {
+    if (pathname === '/') {
+      setIsHomePage(true);
+    } else {
+      setIsHomePage(false);
+    }
+    
+    if (pathname === '/frappe-builder') {
+      setIsFrappeBuilder(true);
+    } else {
+      setIsFrappeBuilder(false);
+    }
+  }, [pathname]);
+
+  // Для главной страницы и frappe-builder не используем layout с sidebar и header
+  if (isMounted && (isHomePage || isFrappeBuilder)) {
+    return <>{children}</>;
   }
 
-  if (layout === LAYOUT_OPTIONS.HELIUM) {
+  // Use HELIUM as default to avoid hydration mismatch
+  const currentLayout = isMounted ? layout : LAYOUT_OPTIONS.HELIUM;
+
+  if (currentLayout === LAYOUT_OPTIONS.HELIUM) {
     return <HeliumLayout>{children}</HeliumLayout>;
   }
-  if (layout === LAYOUT_OPTIONS.LITHIUM) {
+  if (currentLayout === LAYOUT_OPTIONS.LITHIUM) {
     return <LithiumLayout>{children}</LithiumLayout>;
   }
-  if (layout === LAYOUT_OPTIONS.BERYLLIUM) {
+  if (currentLayout === LAYOUT_OPTIONS.BERYLLIUM) {
     return <BerylLiumLayout>{children}</BerylLiumLayout>;
   }
-  if (layout === LAYOUT_OPTIONS.BORON) {
+  if (currentLayout === LAYOUT_OPTIONS.BORON) {
     return <BoronLayout>{children}</BoronLayout>;
   }
-  if (layout === LAYOUT_OPTIONS.CARBON) {
+  if (currentLayout === LAYOUT_OPTIONS.CARBON) {
     return <CarbonLayout>{children}</CarbonLayout>;
   }
 

@@ -1,0 +1,26 @@
+{
+  "name": "@builder-mvp/shared",
+  "version": "0.1.0",
+  "description": "Shared types, models, and utilities for Builder MVP",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "type:check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules .turbo"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.13",
+    "typescript": "5.8.2",
+    "typescript-config": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+

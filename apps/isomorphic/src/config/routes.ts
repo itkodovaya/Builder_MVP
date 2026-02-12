@@ -161,4 +161,8 @@ export const routes = {
     otp5: '/auth/otp-5',
   },
   signIn: '/signin',
+  landing: '/landing',
+  dashboard: '/dashboard',
+  frappeBuilder: '/frappe-builder',
+  sitePreview: (siteId: string) => `/site-preview/${siteId}`,
 };

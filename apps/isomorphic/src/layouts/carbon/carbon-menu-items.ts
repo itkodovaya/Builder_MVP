@@ -100,6 +100,11 @@ export const carbonMenuItems: MenuItemsType[] = [
         icon: PiFolder,
       },
       {
+        name: 'Frappe Builder',
+        href: routes.frappeBuilder,
+        icon: PiCodesandboxLogo,
+      },
+      {
         name: 'Appointment',
         href: routes.appointment.dashboard,
         icon: PiCalendar,

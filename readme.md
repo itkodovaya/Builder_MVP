@@ -1,6 +1,21 @@
-# Isomorphic - React.js Next.js Admin Dashboard
+# Builder MVP - Site Builder Monorepo
 
-This monorepo is powered by [Turborepo](https://turbo.build/), a tool that optimizes build times for monorepo projects. Turborepo leverages your existing package.json scripts and dependencies, making it easy to set up and use.
+This monorepo contains both frontend applications (based on Isomorphic template) and backend services for the MVP site builder.
+
+The monorepo is powered by [Turborepo](https://turbo.build/), a tool that optimizes build times for monorepo projects. Turborepo leverages your existing package.json scripts and dependencies, making it easy to set up and use.
+
+## Project Structure
+
+```
+├── apps/              # Frontend applications (Next.js)
+├── packages/          # Shared frontend packages
+├── services/          # Backend microservices
+│   └── configurator_site/  # Site configurator service
+├── shared/            # Shared backend types, models, and utilities
+├── scripts/           # Database migrations and cleanup scripts
+├── config/            # Global configuration
+└── docs/              # Project documentation
+```
 
 ## Getting Started
 
@@ -39,6 +54,26 @@ pnpm run start
 ```
 
 **You can find more commands in the project root `package.json` file.**
+
+### Backend Services
+
+To run the site configurator service:
+
+```bash
+pnpm run configurator:dev
+```
+
+To build the configurator service:
+
+```bash
+pnpm run configurator:build
+```
+
+For more information about the backend structure, see:
+- [Site Configurator Service README](services/configurator_site/README.md)
+- [Shared Package README](shared/README.md)
+- [API Documentation](docs/api/)
+
 To learn more about these commands checkout our [**Documentation**](https://isomorphic-doc.vercel.app/getting-started/installation)
 
 In your monorepo's root directory, there is a `turbo.json` file. This file allows you to configure custom tasks, set global dependencies, set environment variables, and more. [**Learn More about Turborepo**](https://turbo.build/repo/docs/handbook)

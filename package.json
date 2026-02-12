@@ -32,6 +32,14 @@
     "intl:start": "turbo start --filter=intl",
     "intl:clean": "turbo clean --filter=intl",
     "gen-icons": "turbo gen-icons --filter=core",
+    "configurator:dev": "turbo dev --filter=@builder-mvp/configurator-site",
+    "configurator:build": "turbo build --filter=@builder-mvp/configurator-site",
+    "configurator:start": "turbo start --filter=@builder-mvp/configurator-site",
+    "configurator:lint": "turbo lint --filter=@builder-mvp/configurator-site",
+    "site-builder:dev": "turbo dev --filter=site-builder",
+    "site-builder:build": "turbo build --filter=site-builder",
+    "site-builder:start": "turbo start --filter=site-builder",
+    "site-builder:lint": "turbo lint --filter=site-builder",
     "prepare": "husky"
   },
   "devDependencies": {

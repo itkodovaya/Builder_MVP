@@ -14,6 +14,6 @@ export const MAIL = {
     pass: env.SMTP_PASSWORD || 'password',
   },
   from: env.SMTP_FROM_EMAIL || 'admin@location.dev',
-  logger: true,
-  debug: true,
+  logger: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === 'development',
 };

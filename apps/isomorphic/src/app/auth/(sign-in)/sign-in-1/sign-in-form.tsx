@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 import { SubmitHandler } from 'react-hook-form';
 import { PiArrowRightBold } from 'react-icons/pi';
-import { Checkbox, Password, Button, Input, Text } from 'rizzui';
+import { Checkbox, Password, Button, Input, Text, Alert } from 'rizzui';
 import { Form } from '@core/ui/form';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/validators/login.schema';
@@ -17,15 +18,34 @@ const initialValues: LoginSchema = {
 };
 
 export default function SignInForm() {
-  //TODO: why we need to reset it here
   const [reset, setReset] = useState({});
+  const [error, setError] = useState<string | null>(null);
+  const searchParams = useSearchParams();
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    console.log(data);
-    signIn('credentials', {
-      ...data,
-    });
-    // setReset({ email: "", password: "", isRememberMe: false });
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    if (errorParam) {
+      setError('Неверный email или пароль');
+    }
+  }, [searchParams]);
+
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+    setError(null);
+    try {
+      const result = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+      
+      if (result?.error) {
+        setError('Неверный email или пароль');
+      } else if (result?.ok) {
+        window.location.href = '/dashboard';
+      }
+    } catch (error) {
+      setError('Произошла ошибка при входе. Попробуйте еще раз.');
+    }
   };
 
   return (
@@ -41,6 +61,11 @@ export default function SignInForm() {
       >
         {({ register, formState: { errors } }) => (
           <div className="space-y-5">
+            {error && (
+              <Alert color="danger" className="mb-4">
+                {error}
+              </Alert>
+            )}
             <Input
               type="email"
               size="lg"

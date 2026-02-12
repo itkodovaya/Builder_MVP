@@ -163,6 +163,7 @@ export function AudioVisualizer({
       audioElement.removeEventListener('pause', handlePauseOrStop);
       audioElement.removeEventListener('ended', handlePauseOrStop);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- audioElement is stable from event handler
   }, [theme, color, barWidth, barGap, barRadius, defaultBarColor]);
 
   // Cleanup on unmount
